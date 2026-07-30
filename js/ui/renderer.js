@@ -39,12 +39,36 @@ export class Renderer {
 
         this.container.appendChild(meta);
 
+        // Question Container
+        const qContainer = document.createElement('div');
+        qContainer.style.display = 'flex';
+        qContainer.style.justifyContent = 'space-between';
+        qContainer.style.alignItems = 'flex-start';
+        qContainer.style.gap = '1rem';
+
         // Question Text
         const text = document.createElement('h2');
         text.className = 'question-text';
         text.tabIndex = -1; // For focus management
         text.textContent = questionObj.question;
-        this.container.appendChild(text);
+        text.style.margin = '0';
+
+        // Search Link
+        const searchLink = document.createElement('a');
+        searchLink.href = `https://www.google.com/search?q=${encodeURIComponent(questionObj.question)}`;
+        searchLink.target = '_blank';
+        searchLink.rel = 'noopener noreferrer';
+        searchLink.className = 'icon-btn';
+        searchLink.title = 'Learn more on Google';
+        searchLink.setAttribute('aria-label', 'Search question on Google');
+        searchLink.textContent = '🔍';
+        searchLink.style.textDecoration = 'none';
+        searchLink.style.flexShrink = '0';
+        searchLink.style.color = 'inherit';
+
+        qContainer.appendChild(text);
+        qContainer.appendChild(searchLink);
+        this.container.appendChild(qContainer);
 
         // Answers
         const grid = document.createElement('div');

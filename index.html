@@ -24,12 +24,8 @@
         <header>
             <div style="display: flex; align-items: center; gap: 0.5rem;">
                 <h1>🧠 QuizSphere</h1>
-                <button id="btn-open-settings" class="icon-btn" title="API Keys Manager" aria-label="Manage API Keys">⚙️</button>
             </div>
-            <div class="score-display">
-                <div class="score-correct">✅ <span id="val-correct">0</span></div>
-                <div class="score-wrong">❌ <span id="val-wrong">0</span></div>
-            </div>
+            <button id="btn-open-settings" class="icon-btn" title="API Keys Manager" aria-label="Manage API Keys">🔑</button>
         </header>
 
         <dialog id="api-key-modal" class="modal">
@@ -77,9 +73,15 @@
         </main>
 
         <footer class="stats-footer">
-            <div id="stat-streak">🔥 Streak: 0</div>
-            <div id="stat-best">🏆 Best: 0</div>
-            <div id="stat-acc">🎯 Accuracy: 0%</div>
+            <div class="score-display">
+                <div class="score-correct">✅ <span id="val-correct">0</span></div>
+                <div class="score-wrong">❌ <span id="val-wrong">0</span></div>
+            </div>
+            <div class="stats-right" style="display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center;">
+                <div id="stat-streak">🔥 Streak: 0</div>
+                <div id="stat-best">🏆 Best: 0</div>
+                <div id="stat-acc">🎯 Accuracy: 0%</div>
+            </div>
         </footer>
     </div>
 

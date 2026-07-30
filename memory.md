@@ -17,6 +17,9 @@
 - **Added `ApiKeyModal` with glassmorphism UI to securely manage user keys in `localStorage`.**
 - **Fixed API Ninjas rate-limit bug by internally batching 1-question responses with a 300ms delay.**
 - **Updated QuizAPI provider to support Bearer token auth and nested JSON schema.**
+- **Moved the right/wrong score display from the top header to the bottom status panel (footer) in a two-column layout.**
+- **Moved the API Keys settings icon to the right side of the header and changed it to a key (🔑) icon.**
+- **Added a search icon (🔍) next to each question to quickly search for it on Google in a new tab.**
 
 ## Future Work
 - Add user accounts for tracking long-term stats.
