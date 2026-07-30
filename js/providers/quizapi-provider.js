@@ -31,7 +31,7 @@ export class QuizAPIProvider extends BaseProvider {
         let res;
         try {
             res = await fetch(url, {
-                headers: { 'X-Api-Key': key },
+                headers: { 'Authorization': 'Bearer ' + key },
                 signal: controller.signal
             });
         } finally {
@@ -47,37 +47,61 @@ export class QuizAPIProvider extends BaseProvider {
             throw new Error(`HTTP error: ${res.status}`);
         }
 
-        const data = await res.json();
+        const json = await res.json();
         
-        if (!Array.isArray(data)) {
+        let questionsArray = [];
+        if (json.success && Array.isArray(json.data)) {
+            questionsArray = json.data;
+        } else if (Array.isArray(json)) {
+            questionsArray = json; // Fallback in case it sometimes returns direct array
+        } else {
             throw new Error('Invalid response format');
         }
 
-        return data.map(q => {
-            // Find correct answer
+        return questionsArray.map(q => {
+            // Check if it's the new format
+            if (q.text && Array.isArray(q.answers)) {
+                const correctObj = q.answers.find(a => a.isCorrect);
+                const correctAnswerStr = correctObj ? correctObj.text : q.answers[0].text;
+                const allPossible = q.answers.map(a => a.text);
+                const allAnswers = shuffle(allPossible);
+
+                return {
+                    question: q.text,
+                    type: 'multiple',
+                    correctAnswer: String(correctAnswerStr),
+                    allAnswers: allAnswers.map(String),
+                    difficulty: String(q.difficulty || difficulty).toLowerCase(),
+                    category: q.category || 'Technology',
+                    provider: this.name
+                };
+            }
+
+            // Fallback for old format just in case
             let correctAnswerStr = '';
             let correctAnswerKey = '';
-            for (const [k, v] of Object.entries(q.correct_answers)) {
-                if (v === 'true') {
-                    correctAnswerKey = k.replace('_correct', '');
-                    correctAnswerStr = q.answers[correctAnswerKey] || '';
-                    break;
+            if (q.correct_answers) {
+                for (const [k, v] of Object.entries(q.correct_answers)) {
+                    if (v === 'true') {
+                        correctAnswerKey = k.replace('_correct', '');
+                        correctAnswerStr = q.answers[correctAnswerKey] || '';
+                        break;
+                    }
                 }
             }
 
-            // Gather all answers
             const allPossible = [];
-            for (const [k, v] of Object.entries(q.answers)) {
-                if (v !== null) allPossible.push(v);
+            if (q.answers) {
+                for (const [k, v] of Object.entries(q.answers)) {
+                    if (v !== null && typeof v === 'string') allPossible.push(v);
+                }
             }
             
-            // If we somehow didn't get enough options, fallback logic
             if (allPossible.length < 2) {
                 allPossible.push('True', 'False');
                 if (!correctAnswerStr) correctAnswerStr = 'True';
             }
 
-            // In QuizAPI there can be multiple correct. We just take the first one we found.
             if (!correctAnswerStr && allPossible.length > 0) {
                 correctAnswerStr = allPossible[0];
             }
@@ -89,7 +113,7 @@ export class QuizAPIProvider extends BaseProvider {
                 type: 'multiple',
                 correctAnswer: String(correctAnswerStr),
                 allAnswers: allAnswers.map(String),
-                difficulty: q.difficulty || difficulty,
+                difficulty: String(q.difficulty || difficulty).toLowerCase(),
                 category: q.category || 'Technology',
                 provider: this.name
             };
