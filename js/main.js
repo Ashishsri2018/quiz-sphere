@@ -1,0 +1,40 @@
+import { QuizEngine } from './engine/quiz-engine.js';
+import { Renderer } from './ui/renderer.js';
+import { ScoreDisplay } from './ui/score-display.js';
+import { DifficultyBar } from './ui/difficulty-bar.js';
+import { DIFFICULTIES } from './utils/constants.js';
+
+document.addEventListener('DOMContentLoaded', () => {
+    const engine = new QuizEngine();
+    const scoreDisplay = new ScoreDisplay();
+    const renderer = new Renderer('quiz-card', (index) => {
+        engine.answer(index);
+    });
+    
+    const diffBar = new DifficultyBar('difficulty-bar', (newDiff) => {
+        engine.setDifficulty(newDiff);
+    });
+    
+    // Wire UI updates to engine state changes
+    engine.onStateChange = (state, payload) => {
+        if (state === 'loading') {
+            renderer.renderLoading();
+        } 
+        else if (state === 'show_question') {
+            renderer.renderQuestion(engine.currentQuestion, engine.questionNumber);
+        }
+        else if (state === 'answered') {
+            scoreDisplay.update(engine.score);
+            
+            // Find correct answer index
+            const correctIdx = engine.currentQuestion.allAnswers.indexOf(engine.currentQuestion.correctAnswer);
+            renderer.showFeedback(payload.selectedIndex, payload.isCorrect, correctIdx);
+        }
+    };
+    
+    // Init UI
+    diffBar.render(DIFFICULTIES.EASY);
+    
+    // Start Game
+    engine.start(DIFFICULTIES.EASY);
+});

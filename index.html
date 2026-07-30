@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuizSphere - Infinite Trivia</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="./css/variables.css">
+    <link rel="stylesheet" href="./css/base.css">
+    <link rel="stylesheet" href="./css/components.css">
+    <link rel="stylesheet" href="./css/animations.css">
+    <link rel="stylesheet" href="./css/responsive.css">
+</head>
+<body>
+    <div id="app">
+        <header>
+            <h1>🧠 QuizSphere</h1>
+            <div class="score-display">
+                <div class="score-correct">✅ <span id="val-correct">0</span></div>
+                <div class="score-wrong">❌ <span id="val-wrong">0</span></div>
+            </div>
+        </header>
+
+        <div class="difficulty-selector" id="difficulty-bar">
+            <!-- Rendered via JS -->
+        </div>
+
+        <main class="card" id="quiz-card">
+            <!-- Content rendered via renderer.js -->
+            <div class="meta-info skeleton skeleton-text" style="width: 50%;"></div>
+            <div class="question-text skeleton skeleton-text" style="height: 3rem; margin-bottom: 1.5rem;"></div>
+            
+            <div class="answers-grid">
+                <div class="skeleton skeleton-btn"></div>
+                <div class="skeleton skeleton-btn"></div>
+                <div class="skeleton skeleton-btn"></div>
+                <div class="skeleton skeleton-btn"></div>
+            </div>
+        </main>
+
+        <footer class="stats-footer">
+            <div id="stat-streak">🔥 Streak: 0</div>
+            <div id="stat-best">🏆 Best: 0</div>
+            <div id="stat-acc">🎯 Accuracy: 0%</div>
+        </footer>
+    </div>
+
+    <!-- Main Entry Point -->
+    <script type="module" src="./js/main.js"></script>
+</body>
+</html>

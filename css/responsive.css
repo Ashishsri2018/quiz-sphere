@@ -1,0 +1,25 @@
+@media (max-width: 600px) {
+    #app {
+        padding: 1rem;
+        gap: 1rem;
+    }
+
+    .card {
+        padding: 1.5rem;
+    }
+
+    .question-text {
+        font-size: 1.1rem;
+    }
+
+    .btn-answer {
+        padding: 0.8rem;
+        font-size: 0.9rem;
+    }
+
+    .stats-footer {
+        flex-direction: column;
+        align-items: center;
+        gap: 0.5rem;
+    }
+}
