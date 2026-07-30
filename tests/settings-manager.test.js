@@ -47,6 +47,18 @@ export async function runTests() {
     assert.strictEqual(settings.currentDifficulty, 'easy');
     assert.strictEqual(settings.currentProvider, 'all');
     
+    // Test setEnabledProviders filtering
+    settings.setEnabledProviders([PROVIDERS.OPENTDB, PROVIDERS.FALLBACK]);
+    let options = settings.getProviderOptions();
+    assert.strictEqual(options.length, 3); // 'all', OPENTDB, FALLBACK
+    assert.ok(options.find(o => o.value === PROVIDERS.ALL));
+    assert.ok(options.find(o => o.value === PROVIDERS.OPENTDB));
+    
+    settings.setEnabledProviders([PROVIDERS.FALLBACK]);
+    options = settings.getProviderOptions();
+    assert.strictEqual(options.length, 1); // Only FALLBACK, no 'all' since length < 2
+    assert.ok(!options.find(o => o.value === PROVIDERS.ALL));
+    
     // Test render
     settings.render(DIFFICULTIES.MEDIUM, PROVIDERS.OPENTDB);
     assert.strictEqual(settings.currentDifficulty, 'medium');

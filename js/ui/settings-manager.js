@@ -11,6 +11,11 @@ export class SettingsManager {
         this.onSettingsChange = onSettingsChange;
         this.currentDifficulty = DIFFICULTIES.EASY;
         this.currentProvider = PROVIDERS.ALL;
+        this.enabledProviders = null;
+    }
+
+    setEnabledProviders(enabledList) {
+        this.enabledProviders = enabledList || [];
     }
 
     render(initialDifficulty = DIFFICULTIES.EASY, initialProvider = PROVIDERS.ALL) {
@@ -87,14 +92,24 @@ export class SettingsManager {
     }
 
     getProviderOptions() {
-        return [
-            { value: PROVIDERS.ALL, label: '🔄 All (Rotate)' },
+        const allOptions = [
             { value: PROVIDERS.OPENTDB, label: '📚 OpenTDB' },
             { value: PROVIDERS.TRIVIA_API, label: '🧩 The Trivia API' },
             { value: PROVIDERS.QUIZAPI, label: '💻 QuizAPI (Tech)' },
             { value: PROVIDERS.API_NINJAS, label: '🥷 API Ninjas' },
             { value: PROVIDERS.FALLBACK, label: '💾 Local Fallback' }
         ];
+
+        let filtered = allOptions;
+        if (this.enabledProviders) {
+            filtered = allOptions.filter(opt => this.enabledProviders.includes(opt.value));
+        }
+
+        if (filtered.length >= 2) {
+            filtered.unshift({ value: PROVIDERS.ALL, label: '🔄 All (Rotate)' });
+        }
+
+        return filtered;
     }
 
     emitChange() {

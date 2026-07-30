@@ -20,6 +20,5 @@
 - **Moved the right/wrong score display from the top header to the bottom status panel (footer) in a two-column layout.**
 - **Moved the API Keys settings icon to the right side of the header and changed it to a key (🔑) icon.**
 - **Added a search icon (🔍) next to each question to quickly search for it on Google in a new tab.**
-
-## Future Work
-- Add user accounts for tracking long-term stats.
+- **Added Provider Settings dialog with toggles to enable/disable specific question providers, persisting state to localStorage.**
+- **Merged API Keys Manager and Provider Settings into a single unified SettingsModal with tabs.**

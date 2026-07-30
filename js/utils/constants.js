@@ -13,6 +13,14 @@ export const PROVIDERS = {
     FALLBACK: 'Local Fallback'
 };
 
+export const DEFAULT_ENABLED_PROVIDERS = [
+    PROVIDERS.OPENTDB,
+    PROVIDERS.TRIVIA_API,
+    PROVIDERS.QUIZAPI,
+    PROVIDERS.API_NINJAS,
+    PROVIDERS.FALLBACK
+];
+
 export const QUESTION_TYPES = {
     MULTIPLE: 'multiple',
     BOOLEAN: 'boolean'

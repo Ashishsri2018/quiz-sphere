@@ -256,3 +256,121 @@ h1 {
     border-color: var(--accent-highlight);
     background: rgba(255, 255, 255, 0.1);
 }
+
+/* Provider Settings Additions */
+.settings-dialog-content {
+    max-width: 480px;
+}
+
+.settings-tabs {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.settings-tab {
+    background: transparent;
+    border: none;
+    color: var(--text-secondary);
+    font-size: 1rem;
+    font-weight: 600;
+    padding: 0.5rem 1rem;
+    border-radius: var(--radius-pill);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.settings-tab.active {
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--accent-highlight);
+}
+
+.provider-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.provider-card {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--border-glass);
+    border-radius: var(--radius-button);
+}
+
+.provider-emoji {
+    font-size: 1.5rem;
+}
+
+.provider-card-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.provider-card-info strong {
+    font-size: 0.95rem;
+    color: var(--text-primary);
+}
+
+.provider-card-info span {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+}
+
+.toggle-switch {
+    position: relative;
+    display: inline-block;
+    width: 44px;
+    height: 24px;
+}
+
+.toggle-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.toggle-slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-color: rgba(255, 255, 255, 0.1);
+    transition: .4s;
+    border-radius: 24px;
+}
+
+.toggle-slider:before {
+    position: absolute;
+    content: "";
+    height: 18px;
+    width: 18px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+}
+
+input:checked + .toggle-slider {
+    background-color: var(--accent-highlight);
+}
+
+input:focus + .toggle-slider {
+    box-shadow: 0 0 1px var(--accent-highlight);
+}
+
+input:checked + .toggle-slider:before {
+    transform: translateX(20px);
+}
+
+.toggle-switch.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.toggle-switch.disabled .toggle-slider {
+    cursor: not-allowed;
+}

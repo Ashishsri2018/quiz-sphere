@@ -16,6 +16,17 @@ export class ProviderManager {
         this.fallbackProvider = new FallbackProvider();
         this.currentIndex = 0;
         this.cooldowns = new Map(); // provider name -> expiry timestamp
+        this.enabledProviders = null; // null = all enabled
+    }
+
+    updateEnabledProviders(enabledNames) {
+        this.enabledProviders = new Set(enabledNames);
+    }
+
+    getActiveProviders() {
+        if (!this.enabledProviders) return this.providers;
+        // fallback to this.providers to avoid breaking if setup is weird
+        return this.providers.filter(p => this.enabledProviders.has(p.id) || this.enabledProviders.has(p.name));
     }
 
     /**
@@ -23,7 +34,7 @@ export class ProviderManager {
      */
     getProviderNames() {
         return [
-            ...this.providers.map(p => p.name),
+            ...this.getActiveProviders().map(p => p.name),
             this.fallbackProvider.name
         ];
     }
@@ -40,11 +51,16 @@ export class ProviderManager {
         }
 
         let attempts = 0;
-        const maxAttempts = this.providers.length;
+        const activeProviders = this.getActiveProviders();
+        if (activeProviders.length === 0) {
+            console.warn('No active API providers available, using local fallback.');
+            return await this.fallbackProvider.fetchQuestions(difficulty, amount);
+        }
+        const maxAttempts = activeProviders.length;
 
         while (attempts < maxAttempts) {
-            const provider = this.providers[this.currentIndex];
-            this.currentIndex = (this.currentIndex + 1) % this.providers.length;
+            const provider = activeProviders[this.currentIndex % activeProviders.length];
+            this.currentIndex = (this.currentIndex + 1) % activeProviders.length;
 
             if (this.isProviderOnCooldown(provider.name)) {
                 attempts++;

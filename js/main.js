@@ -2,21 +2,46 @@ import { QuizEngine } from './engine/quiz-engine.js?v=2';
 import { Renderer } from './ui/renderer.js?v=2';
 import { ScoreDisplay } from './ui/score-display.js?v=2';
 import { SettingsManager } from './ui/settings-manager.js?v=2';
-import { ApiKeyModal } from './ui/api-key-modal.js?v=2';
+import { SettingsModal } from './ui/settings-modal.js?v=2';
 import { DIFFICULTIES } from './utils/constants.js?v=2';
 
 document.addEventListener('DOMContentLoaded', () => {
-    // Initialize API Key Modal and expose globally for providers to access
-    window.apiKeyManager = new ApiKeyModal();
+    // Initialize Unified Settings Modal
+    const settingsModal = new SettingsModal('settings-dialog');
+    window.apiKeyManager = settingsModal; // Expose globally for providers to access API keys
 
     const engine = new QuizEngine();
     const scoreDisplay = new ScoreDisplay();
+
+    const enabledProviders = settingsModal.getEnabledProviders();
+    engine.buffer.providerManager.updateEnabledProviders(enabledProviders);
+
+    const btnOpenSettings = document.getElementById('btn-open-settings');
+    if (btnOpenSettings) {
+        btnOpenSettings.addEventListener('click', () => settingsModal.open());
+    }
+
     const renderer = new Renderer('quiz-card', (index) => {
         engine.answer(index);
     });
     
     const settings = new SettingsManager('settings-bar', (difficulty, provider) => {
         engine.changeSettings(difficulty, provider);
+    });
+    settings.setEnabledProviders(enabledProviders);
+    
+    // When provider settings change, update everything
+    settingsModal.onChange((newEnabled) => {
+        settings.setEnabledProviders(newEnabled);
+        engine.buffer.providerManager.updateEnabledProviders(newEnabled);
+        
+        // If current provider is now disabled, switch to 'all'
+        if (settings.currentProvider !== 'all' && !newEnabled.includes(settings.currentProvider)) {
+            settings.currentProvider = 'all';
+            settings.emitChange();
+        }
+        
+        settings.render(settings.currentDifficulty, settings.currentProvider);
     });
     
     // Wire UI updates to engine state changes
