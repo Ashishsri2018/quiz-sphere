@@ -1,9 +1,10 @@
-import { QuizEngine } from './engine/quiz-engine.js?v=2';
-import { Renderer } from './ui/renderer.js?v=2';
-import { ScoreDisplay } from './ui/score-display.js?v=2';
-import { SettingsManager } from './ui/settings-manager.js?v=2';
-import { SettingsModal } from './ui/settings-modal.js?v=2';
-import { DIFFICULTIES } from './utils/constants.js?v=2';
+import { QuizEngine } from './engine/quiz-engine.js?v=3';
+import { Renderer } from './ui/renderer.js?v=3';
+import { ScoreDisplay } from './ui/score-display.js?v=3';
+import { SettingsManager } from './ui/settings-manager.js?v=3';
+import { SettingsModal } from './ui/settings-modal.js?v=3';
+import { ThemeSwitcher } from './ui/theme-switcher.js?v=3';
+import { DIFFICULTIES } from './utils/constants.js?v=3';
 
 document.addEventListener('DOMContentLoaded', () => {
     // Initialize Unified Settings Modal
@@ -20,6 +21,9 @@ document.addEventListener('DOMContentLoaded', () => {
     if (btnOpenSettings) {
         btnOpenSettings.addEventListener('click', () => settingsModal.open());
     }
+    
+    // Initialize Theme Switcher
+    const themeSwitcher = new ThemeSwitcher('btn-theme-toggle');
 
     const renderer = new Renderer('quiz-card', (index) => {
         engine.answer(index);

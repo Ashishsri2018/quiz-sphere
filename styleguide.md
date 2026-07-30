@@ -1,16 +1,21 @@
 # QuizSphere UI/UX Styleguide
 
 ## Colors & Theming
-- **Primary Background**: `#0f0f1a` (Dark mode) / `#f0f0f5` (Light mode)
-- **Card Background**: Translucent white with 12px blur (Glassmorphism)
-- **Primary Text**: `#f0f0f5` (Dark) / `#111111` (Light)
-- **Secondary Text**: `#aab` (Dark) / `#555555` (Light)
-- **Accents**: 
-  - Correct: `#00e676`
-  - Wrong: `#ff5252`
-  - Easy: `#4caf50`
-  - Medium: `#ff9800`
-  - Hard: `#d32f2f`
+QuizSphere uses a multi-theme `data-theme` system with 7 curated palettes:
+- **Midnight (default)**: Purple accent (`#7c4dff`), deep space background
+- **Ocean Deep**: Cyan accent (`#00b4d8`), deep blue background
+- **Aurora**: Blue/orange accent (`#58a6ff`), GitHub-inspired
+- **Ember**: Orange accent (`#ff6b35`), warm background
+- **Forest**: Green accent (`#00e676`), natural background
+- **Neon**: Magenta accent (`#e040fb`), cyberpunk background
+- **Light**: Indigo accent (`#6c5ce7`), clean and accessible
+
+**Universal Semantic Colors**:
+- Correct: `#00e676`
+- Wrong: `#ff5252`
+- Easy: `#4caf50`
+- Medium: `#ff9800`
+- Hard: `#f44336`
 
 ## Typography
 - **Font Family**: Inter, system-ui, sans-serif
@@ -18,17 +23,28 @@
 - **Body**: 500 weight, 1.6 line height
 
 ## Components
-- **Buttons**:
+- **Buttons (Answers)**:
   - Border radius: 12px
   - Padding: 1rem
-  - Hover state: Slight background lighten + Y-axis translate (-2px)
-  - Focus state: 2px solid outline with `--accent-highlight`
+  - Hover state: Gradient border glow, background tint, Y-axis translate (-2px), deep shadow
+  - Feedback state: Correct gives a green glow and pulse, wrong gives a red glow and shake
 - **Dropdowns (Settings)**:
   - Uses native `<select>` elements for full keyboard/screen-reader accessibility.
   - Border radius: var(--radius-pill) (20px)
   - Background: Glassmorphism (translucent + backdrop-filter blur)
-  - Custom dropdown arrow via `::after` pseudo-element on wrapper
-  - Hover state: Border color transitions to `--accent-highlight`
+  - Hover state: Border color transitions to `--accent-highlight` and box-shadow inset glow
+- **Badges & Pills**:
+  - Question number badge: solid highlight background, pill-shaped
+  - Difficulty/Category pills: translucent tinted backgrounds matching semantic colors
+- **Stat Chips (Footer)**:
+  - Glassmorphic pill-shaped cards holding score, streak, and accuracy
+  - Streak gets a glowing hot style at ≥3
+
+## Animations & Motion
+- **Staggered Entrance**: Answer buttons enter one by one using a `fade-in-up` stagger.
+- **Score Pop**: When the score updates, the value scales up 1.3x and changes color briefly.
+- **Streak Celebration**: Every 5 streak points, the streak chip bursts with a golden glow.
+- **Skeleton Loading**: Theme-aware gradient shimmer for empty states.
 
 ## Accessibility (a11y)
 - Minimum contrast ratio for text is 4.5:1.

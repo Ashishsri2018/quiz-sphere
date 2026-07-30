@@ -8,11 +8,11 @@
     <title>QuizSphere - Infinite Trivia</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     
-    <link rel="stylesheet" href="./css/variables.css">
-    <link rel="stylesheet" href="./css/base.css">
-    <link rel="stylesheet" href="./css/components.css">
-    <link rel="stylesheet" href="./css/animations.css">
-    <link rel="stylesheet" href="./css/responsive.css">
+    <link rel="stylesheet" href="./css/variables.css?v=3">
+    <link rel="stylesheet" href="./css/base.css?v=3">
+    <link rel="stylesheet" href="./css/components.css?v=5">
+    <link rel="stylesheet" href="./css/animations.css?v=3">
+    <link rel="stylesheet" href="./css/responsive.css?v=3">
 </head>
 <body>
     <noscript>
@@ -25,7 +25,8 @@
             <div style="display: flex; align-items: center; gap: 0.5rem;">
                 <h1>🧠 QuizSphere</h1>
             </div>
-            <div style="display: flex; gap: 0.25rem;">
+            <div class="header-actions">
+                <button id="btn-theme-toggle" class="icon-btn" title="Change Theme" aria-label="Change Theme">🎨</button>
                 <button id="btn-open-settings" class="icon-btn" title="Settings" aria-label="Settings">⚙️</button>
             </div>
         </header>
@@ -56,18 +57,18 @@
 
         <footer class="stats-footer">
             <div class="score-display">
-                <div class="score-correct">✅ <span id="val-correct">0</span></div>
-                <div class="score-wrong">❌ <span id="val-wrong">0</span></div>
+                <div class="stat-chip score-correct">✅ <span id="val-correct">0</span></div>
+                <div class="stat-chip score-wrong">❌ <span id="val-wrong">0</span></div>
             </div>
-            <div class="stats-right" style="display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center;">
-                <div id="stat-streak">🔥 Streak: 0</div>
-                <div id="stat-best">🏆 Best: 0</div>
-                <div id="stat-acc">🎯 Accuracy: 0%</div>
+            <div class="stats-right" style="display: flex; gap: 0.5rem; flex-wrap: wrap; justify-content: center;">
+                <div class="stat-chip" id="stat-streak-chip">🔥 <span id="stat-streak">0</span> <span class="stat-label" style="font-weight:normal;font-size:0.8em;opacity:0.8;">streak</span></div>
+                <div class="stat-chip" id="stat-best-chip" style="display: none;">🏆 <span id="stat-best">0</span></div>
+                <div class="stat-chip" id="stat-acc-chip">🎯 <span id="stat-acc">0%</span></div>
             </div>
         </footer>
     </div>
 
     <!-- Main Entry Point -->
-    <script type="module" src="./js/main.js?v=2"></script>
+    <script type="module" src="./js/main.js?v=3"></script>
 </body>
 </html>

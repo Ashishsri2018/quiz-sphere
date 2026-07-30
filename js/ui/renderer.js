@@ -30,12 +30,32 @@ export class Renderer {
         const meta = document.createElement('div');
         meta.className = 'meta-info';
         
-        const span1 = document.createElement('span');
-        span1.textContent = `Q#${questionNumber} · ${questionObj.category}`;
-        const span2 = document.createElement('span');
-        span2.textContent = `via ${questionObj.provider}`;
-        meta.appendChild(span1);
-        meta.appendChild(span2);
+        const leftMeta = document.createElement('div');
+        leftMeta.style.display = 'flex';
+        leftMeta.style.alignItems = 'center';
+        leftMeta.style.gap = '0.75rem';
+
+        const qBadge = document.createElement('span');
+        qBadge.className = 'question-number-badge';
+        qBadge.textContent = `Q${questionNumber}`;
+
+        const categoryTag = document.createElement('span');
+        categoryTag.textContent = questionObj.category;
+        
+        const providerChip = document.createElement('span');
+        providerChip.className = 'provider-chip';
+        providerChip.textContent = `via ${questionObj.provider}`;
+
+        leftMeta.appendChild(qBadge);
+        leftMeta.appendChild(categoryTag);
+        leftMeta.appendChild(providerChip);
+
+        const difficultyPill = document.createElement('span');
+        difficultyPill.className = `difficulty-pill ${questionObj.difficulty}`;
+        difficultyPill.textContent = questionObj.difficulty;
+
+        meta.appendChild(leftMeta);
+        meta.appendChild(difficultyPill);
 
         this.container.appendChild(meta);
 

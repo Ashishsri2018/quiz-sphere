@@ -22,3 +22,4 @@
 - **Added a search icon (🔍) next to each question to quickly search for it on Google in a new tab.**
 - **Added Provider Settings dialog with toggles to enable/disable specific question providers, persisting state to localStorage.**
 - **Merged API Keys Manager and Provider Settings into a single unified SettingsModal with tabs.**
+- **Completed UI/UX and Color Theme Overhaul**: Added 7-theme system, richer quiz card layout with visual hierarchy (badges and pills), glowing answer buttons with staggered entrances, and a completely redesigned stats footer with stat chips and a streak milestone celebration.
