@@ -32,40 +32,59 @@ export class ApiNinjasProvider extends BaseProvider {
             throw new Error('API key not provided');
         }
 
-        // API Ninjas doesn't strictly use easy/medium/hard in their trivia endpoint in the same way,
         // API Ninjas free tier does not support the 'limit' parameter, so we fetch 1 at a time.
-        // The QuestionBuffer will automatically loop to fetch more until the buffer is full.
+        // We will loop here to fulfill the requested 'amount' with a small delay to avoid rate limits.
         const url = `https://api.api-ninjas.com/v1/trivia`;
-        
-        const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 8000);
-        
-        let res;
-        try {
-            res = await fetch(url, {
-                headers: { 'X-Api-Key': key },
-                signal: controller.signal
-            });
-        } finally {
-            clearTimeout(timeoutId);
-        }
+        const questionsData = [];
 
-        if (!res.ok) {
-            if (res.status === 401 || res.status === 403) {
-                localStorage.removeItem('apininjas_key');
-                throw new Error('Unauthorized - Invalid API key');
+        for (let i = 0; i < amount; i++) {
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 8000);
+            
+            let res;
+            try {
+                res = await fetch(url, {
+                    headers: { 'X-Api-Key': key },
+                    signal: controller.signal
+                });
+            } catch (err) {
+                if (i === 0) throw err;
+                break; // Break and return what we have so far
+            } finally {
+                clearTimeout(timeoutId);
             }
-            if (res.status === 429) throw new Error('Rate limited');
-            throw new Error(`HTTP error: ${res.status}`);
+
+            if (!res.ok) {
+                if (res.status === 401 || res.status === 403) {
+                    localStorage.removeItem('apininjas_key');
+                    if (i === 0) throw new Error('Unauthorized - Invalid API key');
+                    break;
+                }
+                if (res.status === 429) {
+                    if (i === 0) throw new Error('Rate limited');
+                    break;
+                }
+                if (i === 0) throw new Error(`HTTP error: ${res.status}`);
+                break;
+            }
+
+            const data = await res.json();
+            
+            if (Array.isArray(data) && data.length > 0) {
+                questionsData.push(data[0]);
+            }
+
+            // Small delay between requests to avoid rate limits
+            if (i < amount - 1) {
+                await new Promise(resolve => setTimeout(resolve, 300));
+            }
         }
 
-        const data = await res.json();
-        
-        if (!Array.isArray(data)) {
-            throw new Error('Invalid response format');
+        if (questionsData.length === 0) {
+            throw new Error('No questions returned');
         }
 
-        return data.map(q => {
+        return questionsData.map(q => {
             const correctAnswer = String(q.answer);
             
             // Generate 3 random wrong answers since API Ninjas only gives the right one
