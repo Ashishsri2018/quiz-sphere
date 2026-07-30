@@ -1,9 +1,9 @@
-import { QuizEngine } from './engine/quiz-engine.js';
-import { Renderer } from './ui/renderer.js';
-import { ScoreDisplay } from './ui/score-display.js';
-import { SettingsManager } from './ui/settings-manager.js';
-import { ApiKeyModal } from './ui/api-key-modal.js';
-import { DIFFICULTIES } from './utils/constants.js';
+import { QuizEngine } from './engine/quiz-engine.js?v=2';
+import { Renderer } from './ui/renderer.js?v=2';
+import { ScoreDisplay } from './ui/score-display.js?v=2';
+import { SettingsManager } from './ui/settings-manager.js?v=2';
+import { ApiKeyModal } from './ui/api-key-modal.js?v=2';
+import { DIFFICULTIES } from './utils/constants.js?v=2';
 
 document.addEventListener('DOMContentLoaded', () => {
     // Initialize API Key Modal and expose globally for providers to access
