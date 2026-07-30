@@ -15,47 +15,69 @@ h1 {
     gap: 0.5rem;
 }
 
-/* Difficulty Selector */
-.difficulty-selector {
+/* Settings Bar */
+.settings-bar {
     display: flex;
-    gap: 0.5rem;
+    gap: 1rem;
     justify-content: center;
-    margin-bottom: 0.5rem;
+    align-items: center;
 }
 
-.diff-pill {
-    background: var(--bg-card);
-    border: 1px solid var(--border-glass);
-    color: var(--text-secondary);
-    padding: 0.6rem 1.2rem;
-    border-radius: var(--radius-pill);
-    cursor: pointer;
-    font-size: 0.9rem;
+.settings-group {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.settings-label {
+    font-size: 0.85rem;
     font-weight: 600;
-    transition: all var(--transition-fast);
+    color: var(--text-secondary);
+    white-space: nowrap;
 }
 
-.diff-pill:hover {
-    background: var(--bg-card-hover);
+.select-wrap {
+    position: relative;
+}
+
+.settings-select {
+    appearance: none;
+    -webkit-appearance: none;
+    background: var(--bg-card);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--border-glass);
     color: var(--text-primary);
+    padding: 0.5rem 2rem 0.5rem 0.75rem;
+    border-radius: var(--radius-pill);
+    font-size: 0.85rem;
+    font-weight: 600;
+    font-family: inherit;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    min-width: 140px;
 }
 
-.diff-pill.active.easy {
-    background: var(--accent-easy);
-    color: #000;
-    border-color: var(--accent-easy);
+.settings-select:hover {
+    background: var(--bg-card-hover);
+    border-color: var(--accent-highlight);
 }
 
-.diff-pill.active.medium {
-    background: var(--accent-medium);
-    color: #000;
-    border-color: var(--accent-medium);
+.settings-select:focus-visible {
+    outline: 2px solid var(--accent-highlight);
+    outline-offset: 2px;
 }
 
-.diff-pill.active.hard {
-    background: #d32f2f;
-    color: #fff;
-    border-color: #d32f2f;
+/* Custom dropdown arrow */
+.select-wrap::after {
+    content: '▾';
+    position: absolute;
+    right: 0.75rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-secondary);
+    pointer-events: none;
+    font-size: 0.8rem;
 }
 
 /* Card */

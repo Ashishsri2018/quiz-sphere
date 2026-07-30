@@ -14,6 +14,7 @@ export class QuizEngine {
             bestStreak: 0
         };
         this.difficulty = DIFFICULTIES.EASY;
+        this.provider = 'all';
         this.onStateChange = null; // Callback for UI
         this.pollTimer = null;
         this.autoAdvanceTimer = null;
@@ -24,11 +25,16 @@ export class QuizEngine {
         if (this.autoAdvanceTimer) clearTimeout(this.autoAdvanceTimer);
     }
 
-    setDifficulty(difficulty) {
+    /**
+     * Change settings on the fly without resetting score.
+     * Flushes the buffer to fetch new questions with the updated settings.
+     */
+    changeSettings(difficulty, provider) {
         this.difficulty = difficulty;
+        this.provider = provider;
         this.setState('loading');
         this.clearTimers();
-        this.buffer.changeDifficulty(difficulty).then(() => {
+        this.buffer.changeSettings(difficulty, provider).then(() => {
             this.nextQuestion();
         });
     }
@@ -36,7 +42,7 @@ export class QuizEngine {
     start(difficulty = DIFFICULTIES.EASY) {
         this.score = { correct: 0, wrong: 0, streak: 0, bestStreak: 0 };
         this.questionNumber = 0;
-        this.setDifficulty(difficulty);
+        this.changeSettings(difficulty, this.provider);
     }
 
     nextQuestion(retries = 10) {

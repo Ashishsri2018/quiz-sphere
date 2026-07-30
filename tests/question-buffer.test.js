@@ -23,8 +23,8 @@ export async function runTests() {
     assert.strictEqual(q1.q, 'mock');
     assert.strictEqual(buffer.queue.length, 4);
     
-    // Test difficulty change (should flush and refill)
-    await buffer.changeDifficulty('hard');
+    // Trigger fetch via changeSettings
+    await buffer.changeSettings('hard', 'all');
     assert.strictEqual(buffer.currentDifficulty, 'hard');
     assert.strictEqual(buffer.queue.length, 5); // Filled with new difficulty
     assert.strictEqual(buffer.queue[0].difficulty, 'hard');

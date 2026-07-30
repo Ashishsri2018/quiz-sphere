@@ -1,7 +1,7 @@
 import { QuizEngine } from './engine/quiz-engine.js';
 import { Renderer } from './ui/renderer.js';
 import { ScoreDisplay } from './ui/score-display.js';
-import { DifficultyBar } from './ui/difficulty-bar.js';
+import { SettingsManager } from './ui/settings-manager.js';
 import { DIFFICULTIES } from './utils/constants.js';
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -11,8 +11,8 @@ document.addEventListener('DOMContentLoaded', () => {
         engine.answer(index);
     });
     
-    const diffBar = new DifficultyBar('difficulty-bar', (newDiff) => {
-        engine.setDifficulty(newDiff);
+    const settings = new SettingsManager('settings-bar', (difficulty, provider) => {
+        engine.changeSettings(difficulty, provider);
     });
     
     // Wire UI updates to engine state changes
@@ -29,6 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // Find correct answer index
             const correctIdx = engine.currentQuestion.allAnswers.indexOf(engine.currentQuestion.correctAnswer);
             renderer.showFeedback(payload.selectedIndex, payload.isCorrect, correctIdx);
+        }
         else if (state === 'error') {
             renderer.renderError(() => {
                 engine.start(engine.difficulty);
@@ -37,7 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
     
     // Init UI
-    diffBar.render(DIFFICULTIES.EASY);
+    settings.render(DIFFICULTIES.EASY, 'all');
     
     // Start Game
     engine.start(DIFFICULTIES.EASY);

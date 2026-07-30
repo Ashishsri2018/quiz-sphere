@@ -4,6 +4,15 @@ export const DIFFICULTIES = {
     HARD: 'hard'
 };
 
+export const PROVIDERS = {
+    ALL: 'all',
+    OPENTDB: 'OpenTDB',
+    TRIVIA_API: 'The Trivia API',
+    QUIZAPI: 'QuizAPI (Tech)',
+    API_NINJAS: 'API Ninjas',
+    FALLBACK: 'Local Fallback'
+};
+
 export const QUESTION_TYPES = {
     MULTIPLE: 'multiple',
     BOOLEAN: 'boolean'

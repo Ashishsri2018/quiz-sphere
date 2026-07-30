@@ -10,7 +10,7 @@ export async function runTests() {
     // Mock the buffer inside the engine
     let fetched = false;
     engine.buffer = {
-        changeDifficulty: async () => { fetched = true; },
+        changeSettings: async () => { fetched = true; },
         getNext: () => {
             return {
                 question: 'mock Q',
@@ -27,10 +27,9 @@ export async function runTests() {
     // Test starting game
     engine.start(DIFFICULTIES.MEDIUM);
     assert.strictEqual(engine.difficulty, 'medium');
+    assert.strictEqual(engine.provider, 'all');
     assert.strictEqual(engine.state, 'loading'); // Immediately goes to loading
     
-    // In our mock, start() calls setDifficulty which calls changeDifficulty then nextQuestion
-    // We can simulate nextQuestion manually since our mock changeDifficulty doesn't chain
     engine.nextQuestion();
     assert.strictEqual(engine.state, 'show_question');
     assert.strictEqual(engine.currentQuestion.question, 'mock Q');
@@ -60,6 +59,13 @@ export async function runTests() {
     assert.strictEqual(engine.score.wrong, 0);
     assert.strictEqual(engine.questionNumber, 0);
     assert.strictEqual(engine.difficulty, 'hard');
+    
+    // Test on-the-fly changeSettings (should not reset score)
+    engine.score.correct = 5;
+    engine.changeSettings('easy', 'OpenTDB');
+    assert.strictEqual(engine.difficulty, 'easy');
+    assert.strictEqual(engine.provider, 'OpenTDB');
+    assert.strictEqual(engine.score.correct, 5); // Score preserved
     
     console.log('✅ quiz-engine tests passed\n');
 }

@@ -6,3 +6,4 @@
 - [x] Add unit tests (buffer, providers)
 - [x] Comprehensive code audit and bug fixes
 - [x] Deploy statically (GitHub Pages)
+- [x] Replace difficulty pills with dropdowns and add provider selection

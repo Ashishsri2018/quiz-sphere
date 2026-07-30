@@ -23,10 +23,12 @@
   - Padding: 1rem
   - Hover state: Slight background lighten + Y-axis translate (-2px)
   - Focus state: 2px solid outline with `--accent-highlight`
-- **Pills (Difficulty)**:
-  - Border radius: 20px
-  - Padding: 0.6rem 1.2rem
-  - Must use semantic `<button>` tags with `aria-pressed` for accessibility.
+- **Dropdowns (Settings)**:
+  - Uses native `<select>` elements for full keyboard/screen-reader accessibility.
+  - Border radius: var(--radius-pill) (20px)
+  - Background: Glassmorphism (translucent + backdrop-filter blur)
+  - Custom dropdown arrow via `::after` pseudo-element on wrapper
+  - Hover state: Border color transitions to `--accent-highlight`
 
 ## Accessibility (a11y)
 - Minimum contrast ratio for text is 4.5:1.

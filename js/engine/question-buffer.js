@@ -7,13 +7,15 @@ export class QuestionBuffer {
         this.providerManager = new ProviderManager();
         this.isFetching = false;
         this.currentDifficulty = 'easy';
+        this.currentProvider = 'all';
     }
 
     /**
-     * Set a new difficulty and flush the buffer
+     * Update difficulty and/or provider, flushing the buffer
      */
-    async changeDifficulty(difficulty) {
+    async changeSettings(difficulty, provider) {
         this.currentDifficulty = difficulty;
+        this.currentProvider = provider;
         this.queue = [];
         await this.ensureBuffer();
     }
@@ -43,7 +45,11 @@ export class QuestionBuffer {
         try {
             let emptyBatches = 0;
             while (this.queue.length < CONFIG.FETCH_BATCH_SIZE) {
-                const batch = await this.providerManager.getNextBatch(this.currentDifficulty, CONFIG.FETCH_BATCH_SIZE);
+                const batch = await this.providerManager.getNextBatch(
+                    this.currentDifficulty,
+                    CONFIG.FETCH_BATCH_SIZE,
+                    this.currentProvider
+                );
                 // In case difficulty changed while fetching, only add if it matches
                 if (batch && batch.length > 0 && batch[0].difficulty === this.currentDifficulty) {
                     this.queue.push(...batch);
