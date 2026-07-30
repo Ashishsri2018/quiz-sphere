@@ -29,8 +29,9 @@ export class ApiNinjasProvider extends BaseProvider {
         }
 
         // API Ninjas doesn't strictly use easy/medium/hard in their trivia endpoint in the same way,
-        // but we'll request a batch and map them.
-        const url = `https://api.api-ninjas.com/v1/trivia?limit=${amount}`;
+        // API Ninjas free tier does not support the 'limit' parameter, so we fetch 1 at a time.
+        // The QuestionBuffer will automatically loop to fetch more until the buffer is full.
+        const url = `https://api.api-ninjas.com/v1/trivia`;
         
         const controller = new AbortController();
         const timeoutId = setTimeout(() => controller.abort(), 8000);
