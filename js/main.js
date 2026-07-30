@@ -2,9 +2,13 @@ import { QuizEngine } from './engine/quiz-engine.js';
 import { Renderer } from './ui/renderer.js';
 import { ScoreDisplay } from './ui/score-display.js';
 import { SettingsManager } from './ui/settings-manager.js';
+import { ApiKeyModal } from './ui/api-key-modal.js';
 import { DIFFICULTIES } from './utils/constants.js';
 
 document.addEventListener('DOMContentLoaded', () => {
+    // Initialize API Key Modal and expose globally for providers to access
+    window.apiKeyManager = new ApiKeyModal();
+
     const engine = new QuizEngine();
     const scoreDisplay = new ScoreDisplay();
     const renderer = new Renderer('quiz-card', (index) => {

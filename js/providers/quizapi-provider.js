@@ -9,9 +9,13 @@ export class QuizAPIProvider extends BaseProvider {
     async getApiKey() {
         let key = localStorage.getItem('quizapi_key');
         if (!key) {
-            key = prompt('Enter your QuizAPI.io key (free tier):');
-            if (key) {
-                localStorage.setItem('quizapi_key', key);
+            if (window.apiKeyManager) {
+                key = await window.apiKeyManager.requestKey('quizapi_key');
+            } else {
+                key = prompt('Enter your QuizAPI.io key (free tier):');
+                if (key) {
+                    localStorage.setItem('quizapi_key', key);
+                }
             }
         }
         return key;

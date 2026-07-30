@@ -14,9 +14,13 @@ export class ApiNinjasProvider extends BaseProvider {
     async getApiKey() {
         let key = localStorage.getItem('apininjas_key');
         if (!key) {
-            key = prompt('Enter your API Ninjas key (free tier):');
-            if (key) {
-                localStorage.setItem('apininjas_key', key);
+            if (window.apiKeyManager) {
+                key = await window.apiKeyManager.requestKey('apininjas_key');
+            } else {
+                key = prompt('Enter your API Ninjas key (free tier):');
+                if (key) {
+                    localStorage.setItem('apininjas_key', key);
+                }
             }
         }
         return key;

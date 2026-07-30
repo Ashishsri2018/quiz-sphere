@@ -193,3 +193,66 @@ h1 {
 
 .score-correct { color: var(--accent-correct); }
 .score-wrong { color: var(--accent-wrong); }
+
+/* API Key Modal & Icon */
+.icon-btn {
+    background: transparent;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: transform 0.2s;
+    padding: 0.2rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+.icon-btn:hover {
+    transform: rotate(45deg);
+}
+
+.modal {
+    border: none;
+    background: transparent;
+    padding: 0;
+    margin: auto;
+    overflow: visible;
+}
+.modal::backdrop {
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+}
+.modal[open] {
+    animation: slideUp 0.3s ease-out forwards;
+}
+
+.modal-content {
+    max-width: 400px;
+    width: 90vw;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.modal-desc {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    margin-bottom: 1.5rem;
+}
+
+.modal-input {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border-glass);
+    color: var(--text-primary);
+    padding: 0.75rem 1rem;
+    border-radius: var(--radius-pill);
+    font-size: 0.95rem;
+    font-family: inherit;
+    transition: all var(--transition-fast);
+    margin-top: 0.25rem;
+}
+
+.modal-input:focus {
+    outline: none;
+    border-color: var(--accent-highlight);
+    background: rgba(255, 255, 255, 0.1);
+}
