@@ -14,6 +14,9 @@
 - **Implemented unified SettingsManager with dropdowns for difficulty and provider selection.**
 - **Integrated new free-tier providers: QuizAPI and API Ninjas.**
 - **Enabled live-switching of settings without page reload or score reset.**
+- **Added `ApiKeyModal` with glassmorphism UI to securely manage user keys in `localStorage`.**
+- **Fixed API Ninjas rate-limit bug by internally batching 1-question responses with a 300ms delay.**
+- **Updated QuizAPI provider to support Bearer token auth and nested JSON schema.**
 
 ## Future Work
 - Add user accounts for tracking long-term stats.

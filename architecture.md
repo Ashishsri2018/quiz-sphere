@@ -34,3 +34,8 @@ graph TD
 - **Providers**: Fetch and normalize questions into a standard `NormalizedQuestion` shape. Handle API-specific rate limits and API keys.
 - **Engine**: Manage game state, score tracking, and buffer coordination.
 - **UI**: Pure DOM manipulation based on engine state. `SettingsManager` handles difficulty and provider dropdowns.
+
+## Provider Quirks & Constraints
+- **API Ninjas**: Free tier does not support `limit` or `difficulty` parameters. `ApiNinjasProvider` internally loops with a 300ms delay to fulfill batch requests and artificially tags responses with the requested difficulty.
+- **QuizAPI (Tech)**: Requires `Authorization: Bearer <key>` header and returns questions nested inside a `data` array.
+- **API Key Storage**: Keys for premium/auth-required providers are requested via `ApiKeyModal` and stored persistently in the browser's `localStorage`.
