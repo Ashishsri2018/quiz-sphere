@@ -12,15 +12,17 @@ export class DifficultyBar {
         this.container.innerHTML = '';
         
         Object.values(DIFFICULTIES).forEach(diff => {
-            const pill = document.createElement('div');
+            const pill = document.createElement('button');
             pill.className = `diff-pill ${diff}`;
+            pill.setAttribute('role', 'button');
+            pill.setAttribute('aria-pressed', diff === activeDifficulty ? 'true' : 'false');
             if (diff === activeDifficulty) pill.classList.add('active');
             
             // Emoji mapping
             const emoji = diff === 'easy' ? '🟢' : (diff === 'medium' ? '🟡' : '🔴');
             const label = diff.charAt(0).toUpperCase() + diff.slice(1);
             
-            pill.innerHTML = `${label} ${emoji}`;
+            pill.innerHTML = `${label} <span aria-hidden="true">${emoji}</span>`;
             
             pill.addEventListener('click', () => {
                 if (this.currentDifficulty !== diff) {

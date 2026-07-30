@@ -3,11 +3,14 @@
 ## Recent Achievements
 - Planned and scaffolded the project structure for `quiz-sphere`.
 - Implemented `QuizEngine` state machine.
-- Implemented `ProviderManager` with round-robin provider rotation (OpenTDB, Trivia API, Fallback).
+- Implemented `ProviderManager` with round-robin provider rotation.
 - Implemented `QuestionBuffer` for seamless prefetching.
 - Built responsive UI with CSS custom properties, glassmorphism, and animations.
-- Wired everything up in `main.js`.
+- **Completed comprehensive code audit and applied fixes.**
+- **Fixed critical loop in `QuestionBuffer`, race conditions in `QuizEngine`, and added robust `error` state.**
+- **Enhanced accessibility (ARIA, semantic HTML, contrast, keyboard navigation).**
+- **Created `styleguide.md` and expanded `architecture.md`.**
+- **Added comprehensive test coverage for engine edge cases.**
 
 ## Future Work
-- Add tests to `tests/` directory.
-- Deploy to Cloudflare Pages.
+- Explore more trivia API providers.

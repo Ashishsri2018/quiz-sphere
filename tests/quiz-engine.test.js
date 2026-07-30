@@ -49,5 +49,17 @@ export async function runTests() {
     assert.strictEqual(engine.score.wrong, 1);
     assert.strictEqual(engine.score.streak, 0); // streak reset
     
+    // Test answering in invalid state
+    engine.setState('loading');
+    engine.answer(0);
+    assert.strictEqual(engine.state, 'loading'); // Should not change to answered
+    
+    // Test score reset on restart
+    engine.start(DIFFICULTIES.HARD);
+    assert.strictEqual(engine.score.correct, 0);
+    assert.strictEqual(engine.score.wrong, 0);
+    assert.strictEqual(engine.questionNumber, 0);
+    assert.strictEqual(engine.difficulty, 'hard');
+    
     console.log('✅ quiz-engine tests passed\n');
 }

@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="QuizSphere - Infinite trivia game">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🧠</text></svg>">
     <title>QuizSphere - Infinite Trivia</title>
-    
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     
     <link rel="stylesheet" href="./css/variables.css">
@@ -14,6 +15,12 @@
     <link rel="stylesheet" href="./css/responsive.css">
 </head>
 <body>
+    <noscript>
+        <div style="padding: 1rem; text-align: center; background: #ff5252; color: #fff;">
+            Please enable JavaScript to play QuizSphere.
+        </div>
+    </noscript>
+    <a href="#quiz-card" class="skip-link">Skip to question</a>
     <div id="app">
         <header>
             <h1>🧠 QuizSphere</h1>
@@ -27,7 +34,7 @@
             <!-- Rendered via JS -->
         </div>
 
-        <main class="card" id="quiz-card">
+        <main class="card" id="quiz-card" aria-live="polite">
             <!-- Content rendered via renderer.js -->
             <div class="meta-info skeleton skeleton-text" style="width: 50%;"></div>
             <div class="question-text skeleton skeleton-text" style="height: 3rem; margin-bottom: 1.5rem;"></div>

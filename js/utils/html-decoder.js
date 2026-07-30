@@ -8,9 +8,9 @@ export function decodeHtmlEntities(text) {
         return text
             .replace(/&quot;/g, '"')
             .replace(/&#039;/g, "'")
-            .replace(/&amp;/g, '&')
             .replace(/&lt;/g, '<')
-            .replace(/&gt;/g, '>');
+            .replace(/&gt;/g, '>')
+            .replace(/&amp;/g, '&');
     }
 
     const textarea = document.createElement('textarea');

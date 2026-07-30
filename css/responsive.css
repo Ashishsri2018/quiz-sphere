@@ -1,3 +1,10 @@
+@media (min-width: 1024px) {
+    #app {
+        max-width: 800px;
+        padding: 3rem 1rem;
+    }
+}
+
 @media (max-width: 600px) {
     #app {
         padding: 1rem;
@@ -21,5 +28,16 @@
         flex-direction: column;
         align-items: center;
         gap: 0.5rem;
+    }
+}
+
+@media (max-width: 360px) {
+    h1 {
+        font-size: 1.2rem;
+    }
+    
+    .diff-pill {
+        padding: 0.5rem;
+        font-size: 0.8rem;
     }
 }

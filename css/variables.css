@@ -5,7 +5,7 @@
     --border-glass: rgba(255, 255, 255, 0.1);
     
     --text-primary: #f0f0f5;
-    --text-secondary: #8888aa;
+    --text-secondary: #aab;
     
     --accent-correct: #00e676;
     --accent-correct-bg: rgba(0, 230, 118, 0.1);
@@ -26,4 +26,15 @@
     
     --transition-fast: 0.2s ease;
     --transition-medium: 0.4s ease;
+}
+
+@media (prefers-color-scheme: light) {
+    :root {
+        --bg-primary: #f0f0f5;
+        --bg-card: #ffffff;
+        --bg-card-hover: #f9f9fa;
+        --border-glass: #dddddd;
+        --text-primary: #111111;
+        --text-secondary: #555555;
+    }
 }

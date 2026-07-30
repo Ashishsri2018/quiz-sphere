@@ -29,16 +29,21 @@ export class Renderer {
         // Meta Info
         const meta = document.createElement('div');
         meta.className = 'meta-info';
-        meta.innerHTML = `
-            <span>Q#${questionNumber} · ${questionObj.category}</span>
-            <span>via ${questionObj.provider}</span>
-        `;
+        
+        const span1 = document.createElement('span');
+        span1.textContent = `Q#${questionNumber} · ${questionObj.category}`;
+        const span2 = document.createElement('span');
+        span2.textContent = `via ${questionObj.provider}`;
+        meta.appendChild(span1);
+        meta.appendChild(span2);
+
         this.container.appendChild(meta);
 
         // Question Text
-        const text = document.createElement('div');
+        const text = document.createElement('h2');
         text.className = 'question-text';
-        text.innerHTML = questionObj.question; // already decoded
+        text.tabIndex = -1; // For focus management
+        text.textContent = questionObj.question;
         this.container.appendChild(text);
 
         // Answers
@@ -52,7 +57,14 @@ export class Renderer {
             const btn = document.createElement('button');
             btn.className = 'btn-answer';
             const label = questionObj.type === 'boolean' ? (idx===0?'T':'F') : labels[idx];
-            btn.innerHTML = `<strong>${label}.</strong> <span>${ans}</span>`;
+            
+            const strong = document.createElement('strong');
+            strong.textContent = `${label}.`;
+            const span = document.createElement('span');
+            span.textContent = ans;
+            btn.appendChild(strong);
+            btn.appendChild(document.createTextNode(' '));
+            btn.appendChild(span);
             
             btn.addEventListener('click', () => {
                 // Disable all immediately
@@ -65,6 +77,11 @@ export class Renderer {
         });
 
         this.container.appendChild(grid);
+        
+        // Focus question text for screen readers
+        setTimeout(() => {
+            text.focus();
+        }, 50);
     }
 
     showFeedback(selectedIndex, isCorrect, correctAnswerIndex) {
@@ -73,11 +90,17 @@ export class Renderer {
         if (isCorrect) {
             btn.classList.add('correct');
             btn.classList.add('anim-correct');
-            btn.innerHTML += ' <span style="margin-left:auto">✓</span>';
+            const icon = document.createElement('span');
+            icon.style.marginLeft = 'auto';
+            icon.textContent = '✓';
+            btn.appendChild(icon);
         } else {
             btn.classList.add('wrong');
             btn.classList.add('anim-wrong');
-            btn.innerHTML += ' <span style="margin-left:auto">✗</span>';
+            const icon = document.createElement('span');
+            icon.style.marginLeft = 'auto';
+            icon.textContent = '✗';
+            btn.appendChild(icon);
             
             // Highlight the correct one too
             if (correctAnswerIndex !== -1 && this.buttons[correctAnswerIndex]) {
@@ -93,11 +116,41 @@ export class Renderer {
         progressContainer.appendChild(this.progressBar);
         this.container.appendChild(progressContainer);
 
-        // Animate progress bar (takes exactly the delay duration)
+        // Animate progress bar
+        this.progressBar.style.transitionDuration = '1.5s';
+        // Trigger reflow to ensure the transition takes effect before changing width
+        void this.progressBar.offsetWidth;
+
         setTimeout(() => {
             this.progressBar.style.width = '100%';
-            // Add a CSS transition duration directly
-            this.progressBar.style.transitionDuration = '1.5s';
         }, 50);
+    }
+
+    renderError(onRetry) {
+        this.container.innerHTML = '';
+        const errorDiv = document.createElement('div');
+        errorDiv.style.textAlign = 'center';
+        errorDiv.style.padding = '2rem';
+        
+        const h2 = document.createElement('h2');
+        h2.textContent = 'Something went wrong';
+        h2.style.marginBottom = '1rem';
+        
+        const p = document.createElement('p');
+        p.textContent = 'We had trouble loading the next question. Please check your connection.';
+        p.style.marginBottom = '1.5rem';
+        p.style.color = 'var(--text-secondary)';
+        
+        const retryBtn = document.createElement('button');
+        retryBtn.className = 'diff-pill active easy';
+        retryBtn.textContent = 'Retry';
+        retryBtn.style.margin = '0 auto';
+        retryBtn.style.display = 'inline-block';
+        retryBtn.addEventListener('click', onRetry);
+        
+        errorDiv.appendChild(h2);
+        errorDiv.appendChild(p);
+        errorDiv.appendChild(retryBtn);
+        this.container.appendChild(errorDiv);
     }
 }

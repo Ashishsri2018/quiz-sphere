@@ -41,13 +41,18 @@ export class QuestionBuffer {
         
         this.isFetching = true;
         try {
+            let emptyBatches = 0;
             while (this.queue.length < CONFIG.FETCH_BATCH_SIZE) {
                 const batch = await this.providerManager.getNextBatch(this.currentDifficulty, CONFIG.FETCH_BATCH_SIZE);
                 // In case difficulty changed while fetching, only add if it matches
                 if (batch && batch.length > 0 && batch[0].difficulty === this.currentDifficulty) {
                     this.queue.push(...batch);
+                    emptyBatches = 0;
                 } else if (batch && batch.length > 0 && batch[0].difficulty !== this.currentDifficulty) {
                     break; // Difficulty changed, abort this fill loop
+                } else {
+                    emptyBatches++;
+                    if (emptyBatches >= 3) break; // prevent infinite loop
                 }
             }
         } catch (error) {

@@ -4,7 +4,9 @@
  * @param {Array} array 
  * @returns {Array} Shuffled array
  */
-export function shuffle(array) {
+export function shuffle(originalArray) {
+    if (!Array.isArray(originalArray)) return originalArray;
+    const array = [...originalArray];
     let currentIndex = array.length, randomIndex;
 
     // While there remain elements to shuffle.

@@ -35,6 +35,7 @@ export class ProviderManager {
                 if (questions && questions.length > 0) {
                     return questions;
                 }
+                this.setProviderCooldown(provider.name);
             } catch (error) {
                 console.warn(`Provider ${provider.name} failed:`, error);
                 this.setProviderCooldown(provider.name);

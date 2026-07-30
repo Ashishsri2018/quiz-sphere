@@ -29,6 +29,10 @@ document.addEventListener('DOMContentLoaded', () => {
             // Find correct answer index
             const correctIdx = engine.currentQuestion.allAnswers.indexOf(engine.currentQuestion.correctAnswer);
             renderer.showFeedback(payload.selectedIndex, payload.isCorrect, correctIdx);
+        else if (state === 'error') {
+            renderer.renderError(() => {
+                engine.start(engine.difficulty);
+            });
         }
     };
     

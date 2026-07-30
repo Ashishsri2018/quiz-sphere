@@ -15,37 +15,52 @@ export class QuizEngine {
         };
         this.difficulty = DIFFICULTIES.EASY;
         this.onStateChange = null; // Callback for UI
+        this.pollTimer = null;
+        this.autoAdvanceTimer = null;
+    }
+
+    clearTimers() {
+        if (this.pollTimer) clearTimeout(this.pollTimer);
+        if (this.autoAdvanceTimer) clearTimeout(this.autoAdvanceTimer);
     }
 
     setDifficulty(difficulty) {
         this.difficulty = difficulty;
         this.setState('loading');
+        this.clearTimers();
         this.buffer.changeDifficulty(difficulty).then(() => {
             this.nextQuestion();
         });
     }
 
     start(difficulty = DIFFICULTIES.EASY) {
+        this.score = { correct: 0, wrong: 0, streak: 0, bestStreak: 0 };
+        this.questionNumber = 0;
         this.setDifficulty(difficulty);
     }
 
-    nextQuestion() {
+    nextQuestion(retries = 10) {
+        this.clearTimers();
         this.currentQuestion = this.buffer.getNext();
         if (this.currentQuestion) {
             this.questionNumber++;
             this.setState('show_question');
         } else {
+            if (retries <= 0) {
+                this.setState('error');
+                return;
+            }
             this.setState('loading');
-            // Buffer will auto-fetch and we need to poll or use events.
-            // For simplicity in this demo, just retry after a short delay
-            setTimeout(() => {
-                if (this.state === 'loading') this.nextQuestion();
+            this.pollTimer = setTimeout(() => {
+                if (this.state === 'loading') this.nextQuestion(retries - 1);
             }, 500);
         }
     }
 
     answer(selectedIndex) {
         if (this.state !== 'show_question') return;
+
+        this.clearTimers();
 
         const selectedAnswer = this.currentQuestion.allAnswers[selectedIndex];
         const isCorrect = selectedAnswer === this.currentQuestion.correctAnswer;
@@ -64,7 +79,7 @@ export class QuizEngine {
         this.setState('answered', { selectedIndex, isCorrect });
 
         // Auto-advance
-        setTimeout(() => {
+        this.autoAdvanceTimer = setTimeout(() => {
             if (this.state === 'answered') {
                 this.nextQuestion();
             }
